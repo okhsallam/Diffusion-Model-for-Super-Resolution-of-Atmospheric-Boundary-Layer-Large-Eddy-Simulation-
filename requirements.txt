@@ -1,0 +1,14 @@
+# Model training / inference (model/)
+torch>=2.0
+torchvision
+denoising-diffusion-pytorch   # base package imported by the modified copy in model/
+einops
+ema-pytorch
+accelerate
+pyyaml
+tqdm
+pillow
+numpy
+scipy
+matplotlib                    # imported by the modified diffusion module
+wandb                         # optional, only if wandb_log: True in config.yaml

@@ -1,0 +1,82 @@
+problem: 'abl'
+
+data:
+  dimensions: [256, 129, 256]
+  scale_factor: 2
+  size: [256,256]
+  condition_kernel: 16
+
+ ############ Interpolation ############
+  __comment__: |
+    paths_hr: ["/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug5.85/z0.01/grid3/data" ,
+        "/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug5.85/z0.1/grid3/data" ,
+          "/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug10/z0.1/grid3/data"]
+
+    paths_lr: ["/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug5.85/z0.01/grid2/data" ,
+        "/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug5.85/z0.1/grid2/data" ,
+          "/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug10/z0.1/grid2/data"]
+
+    Ugs: [5.85,5.85,10.0]
+    z0s: [0.01,0.1,0.1]
+
+
+  ##########################################
+
+  ############ Extrapolation ############
+
+  paths_hr: ["/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug5.85/z0.01/grid3/data" ,
+       "/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug5.85/z0.05/grid3/data" ,
+        "/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug7.15/z0.01/grid3/data"]
+
+  paths_lr: ["/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug5.85/z0.01/grid2/data" ,
+       "/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug5.85/z0.05/grid2/data" ,
+        "/path/to/project/xcompact3d/Incompact3d/my_projects/ABL/Ug7.15/z0.01/grid2/data"]
+
+  Ugs: [5.85,5.85,7.15]
+  z0s: [0.01,0.05,0.01]
+
+##########################################
+
+
+  start_idx: 101
+  #end_idx: 103
+  end_idx: 198
+
+
+  normalization: 'mean_std'  # z_score
+  #normalization: 'neg_pos'  # -1 +1
+  #normalization: 'zero_max' # 0-1  (BAD when prevent clipping)
+
+
+model:
+  channels: 3
+  dim: 64
+  timesteps: 500
+  dim_mults: [1,2,4,8]
+  #objective: 'pred_x0'
+  objective: 'pred_v'
+
+
+training:
+  batch_size: 16
+  num_epochs: 20
+  num_workers: 4
+  paired_weight: 1.0
+  unpaired_weight: 0.0  # It was 0.005
+  LR_maintain_weight_paired: 0.0 # 0.005
+  LR_maintain_weight_unpaired: 0.0 # 0.05
+  lr: 0.0001
+
+save:
+  directory: "ABL/"
+  checkpoint_save_freq: 10   # Save every N epochs
+  results_dir: "results"
+  save_frequency: 10  # Save every N epochs
+  plot_frequency: 1  # Plot every N epochs
+
+
+wandb:
+    wandb_log: False
+    project_Name: "ABL_DM"
+    wandb_log_step: 10  # batch idx
+    wandb_key: ${WANDB_API_KEY}   # read from the environment, never committed

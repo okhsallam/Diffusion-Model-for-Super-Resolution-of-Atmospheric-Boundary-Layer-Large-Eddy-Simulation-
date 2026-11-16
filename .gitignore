@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Raw LES output and model artifacts (too large for git)
+*.bin
+*.pt
+*.npy
+les/**/data/
+les/**/turb-data/
+les/**/statistics/
+checkpoints/
+model/ABL/
+model/datasets_stats/
+
+# Generated figures and videos
+*.mp4
+*.gif
+
+# SLURM logs
+*.out
+*.err
+
+# README figures are tracked
+!docs/figures/*.gif
